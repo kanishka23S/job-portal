@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  job-service:
+    build: .
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env
+    depends_on:
+      - mongo
+    networks:
+      - job-network
+
+  mongo:
+    image: mongo:5
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - job-network
+
+networks:
+  job-network:
+
+volumes:
+  mongo-data:
